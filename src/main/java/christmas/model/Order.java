@@ -19,7 +19,7 @@ public class Order {
             String extractedAmount = extractAmount(orderFromUser);
 
             validateName(extractedName, orders);
-            int amount = parseInt(extractedAmount);
+            int amount = validateAmount(extractedAmount);
 
             orders.put(Menu.getMenuByName(extractedName), amount);
         }
@@ -53,4 +53,28 @@ public class Order {
             throw new IllegalArgumentException();
         }
     }
+
+    private int validateAmount(String extractedAmount) {
+        validateAmountBlank(extractedAmount);
+        int amount = validateAmountNumber(extractedAmount);
+
+        return amount;
+    }
+
+    private void validateAmountBlank(String amount) {
+        if (amount.isBlank()) {
+            ErrorMessage.orderException();
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private int validateAmountNumber(String amount) {
+        try {
+            return parseInt(amount);
+        } catch (NumberFormatException e) {
+            ErrorMessage.orderException();
+            throw new IllegalArgumentException();
+        }
+    }
+
 }
