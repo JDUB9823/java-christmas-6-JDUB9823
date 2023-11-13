@@ -37,10 +37,18 @@ public class Order {
 
     private void validateName(String extractedName, Map<Menu, Integer> orders) {
         validateMenuExists(extractedName);
+        validateMenuDuplication(extractedName, orders);
     }
 
     private void validateMenuExists(String name) {
         if (!Menu.checkMenu(name)) {
+            ErrorMessage.orderException();
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void validateMenuDuplication(String name, Map<Menu, Integer> orders) {
+        if (orders.containsKey(Menu.getMenuByName(name))) {
             ErrorMessage.orderException();
             throw new IllegalArgumentException();
         }
