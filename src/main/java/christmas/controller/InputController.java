@@ -13,4 +13,8 @@ public class InputController {
             return getVisitDateFromUser();
         }
     }
+
+    public void getOrderFromUser() {
+        System.out.println(InputView.readOrder());
+    }
 }
