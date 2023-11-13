@@ -11,6 +11,6 @@ public class PromotionController {
 
     public void init() {
         OutputView.printGreeting();
-        inputController.getVisitDateFromUser();
+        System.out.println(inputController.getVisitDateFromUser());
     }
 }
