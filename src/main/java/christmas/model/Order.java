@@ -9,20 +9,20 @@ import java.util.Map;
 import static java.lang.Integer.parseInt;
 
 public class Order {
+    private static final int MAXIMUM_NUMBER_OF_ORDERS = 20;
+
     private final Map<Menu, Integer> orders;
 
     public Order(List<String> ordersFromUser) {
         Map<Menu, Integer> orders = new LinkedHashMap<>();
 
         for (String orderFromUser : ordersFromUser) {
-            String extractedName = extractName(orderFromUser);
-            String extractedAmount = extractAmount(orderFromUser);
+            validateName(extractName(orderFromUser), orders);
+            int amount = validateAmount(extractAmount(orderFromUser));
 
-            validateName(extractedName, orders);
-            int amount = validateAmount(extractedAmount);
-
-            orders.put(Menu.getMenuByName(extractedName), amount);
+            orders.put(Menu.getMenuByName(extractName(orderFromUser)), amount);
         }
+        checkMaximumNumberOfOrders(getTotalNumberOfMenu(orders));
         this.orders = orders;
     }
 
@@ -83,5 +83,16 @@ public class Order {
             ErrorMessage.orderException();
             throw new IllegalArgumentException();
         }
+    }
+
+    private void checkMaximumNumberOfOrders(int numberOfOrders) {
+        if (numberOfOrders > MAXIMUM_NUMBER_OF_ORDERS) {
+            ErrorMessage.orderLimitException();
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private int getTotalNumberOfMenu(Map<Menu, Integer> orders) {
+        return orders.values().stream().mapToInt(Integer::intValue).sum();
     }
 }
