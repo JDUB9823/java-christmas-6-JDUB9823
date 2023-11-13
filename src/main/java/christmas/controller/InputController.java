@@ -1,9 +1,10 @@
 package christmas.controller;
 
+import christmas.model.Order;
 import christmas.model.VisitDate;
 import christmas.view.InputView;
 
-import static java.lang.Integer.parseInt;
+import java.util.Arrays;
 
 public class InputController {
     public VisitDate getVisitDateFromUser() {
@@ -14,7 +15,11 @@ public class InputController {
         }
     }
 
-    public void getOrderFromUser() {
-        System.out.println(InputView.readOrder());
+    public Order getOrderFromUser() {
+        try {
+            return new Order(Arrays.asList(InputView.readOrder().split(",")));
+        } catch (IllegalArgumentException e) {
+            return getOrderFromUser();
+        }
     }
 }
