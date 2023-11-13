@@ -1,6 +1,6 @@
 package christmas.model;
 
-public enum Menu {
+public enum Menu {      //메뉴판
     CAESAR_SALAD("시저샐러드", 8000, "APPETIZER"),
     MUSHROOM_SOUP("양송이수프", 6000, "APPETIZER"),
     TAPAS("타파스", 5500, "APPETIZER"),
@@ -12,7 +12,8 @@ public enum Menu {
     ICECREAM("아이스크림", 5000, "DESSERT"),
     ZERO_COKE("제로콜라", 3000, "DRINKS"),
     RED_WINE("레드와인", 60000, "DRINKS"),
-    CHAMPAGNE("삼페인", 25000, "DRINKS");
+    CHAMPAGNE("삼페인", 25000, "DRINKS"),
+    NOTHING("",0,"");
 
     private final String name;
     private final int price;
@@ -22,5 +23,23 @@ public enum Menu {
         this.name = name;
         this.price = price;
         this.category = category;
+    }
+
+    public static Boolean checkMenu(String name) {  //메뉴판 존재 여부 반환
+        return !getMenuByName(name).equals(NOTHING);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static Menu getMenuByName(String name) {
+        for (Menu menu : values()) {
+            if (menu.getName().equals(name)) {
+                return menu;
+            }
+        }
+
+        return NOTHING;
     }
 }

@@ -1,5 +1,7 @@
 package christmas.model;
 
+import christmas.utils.ErrorMessage;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,30 +9,40 @@ import java.util.Map;
 import static java.lang.Integer.parseInt;
 
 public class Order {
-    private Map<Menu, Integer> order;
+    private final Map<Menu, Integer> orders;
 
-    public Order(List<String> orderFromUser) {
-        Map<String, Integer> order = splitOrder(orderFromUser);
-        this.order = new LinkedHashMap<>();
-    }
-
-    private Map<String, Integer> splitOrder(List<String> ordersFromUser) {
-        Map<String, Integer> orders = new LinkedHashMap<>();
+    public Order(List<String> ordersFromUser) {
+        Map<Menu, Integer> orders = new LinkedHashMap<>();
 
         for (String orderFromUser : ordersFromUser) {
-            String menu = extractMenu(orderFromUser);
-            int amount = extractAmount(orderFromUser);
-            System.out.println(menu + "/" + amount);
-        }
+            String extractedName = extractName(orderFromUser);
+            String extractedAmount = extractAmount(orderFromUser);
 
-        return orders;
+            validateName(extractedName, orders);
+            int amount = parseInt(extractedAmount);
+
+            orders.put(Menu.getMenuByName(extractedName), amount);
+        }
+        this.orders = orders;
     }
 
-    private String extractMenu(String orderFromUser) {
+
+    private String extractName(String orderFromUser) {
         return orderFromUser.substring(0, orderFromUser.indexOf("-"));
     }
 
-    private int extractAmount(String orderFromUser) {
-        return parseInt(orderFromUser.substring(orderFromUser.indexOf("-") + 1));
+    private String extractAmount(String orderFromUser) {
+        return orderFromUser.substring(orderFromUser.indexOf("-") + 1);
+    }
+
+    private void validateName(String extractedName, Map<Menu, Integer> orders) {
+        validateMenuExists(extractedName);
+    }
+
+    private void validateMenuExists(String name) {
+        if (!Menu.checkMenu(name)) {
+            ErrorMessage.orderException();
+            throw new IllegalArgumentException();
+        }
     }
 }
