@@ -57,6 +57,7 @@ public class Order {
     private int validateAmount(String extractedAmount) {
         validateAmountBlank(extractedAmount);
         int amount = validateAmountNumber(extractedAmount);
+        validateAmountPositive(amount);
 
         return amount;
     }
@@ -77,4 +78,10 @@ public class Order {
         }
     }
 
+    private void validateAmountPositive(int amount) {
+        if (amount < 1) {
+            ErrorMessage.orderException();
+            throw new IllegalArgumentException();
+        }
+    }
 }
