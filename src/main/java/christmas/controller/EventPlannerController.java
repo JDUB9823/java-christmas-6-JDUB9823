@@ -93,7 +93,6 @@ public class EventPlannerController {
 
     private int getWeekEventDiscount(VisitDate visitDate, Order order) {
         int discountAmount = 0;
-
         if (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT")
                 && checkDiscountCondition(order.getTotalPrice())) {
             discountAmount = calculateWeekEventDiscount(order, "DESSERT");
