@@ -36,6 +36,16 @@ public class OutputView {
         System.out.println(new DecimalFormat("###,###").format(price) + "원");
     }
 
+    public static void printGift(String gift) {
+        System.out.println();
+        System.out.println("<증정 메뉴>");
+        System.out.println(gift);
+    }
+
+    public static void printNone() {
+        System.out.println("없음");
+    }
+
     public static void printErrorMessage(String errorMessage) {
         System.out.println("[ERROR] " + errorMessage);
     }
