@@ -33,6 +33,10 @@ public enum Menu {      //메뉴판
         return name;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
     public static Menu getMenuByName(String name) {
         for (Menu menu : values()) {
             if (menu.getName().equals(name)) {
@@ -41,5 +45,9 @@ public enum Menu {      //메뉴판
         }
 
         return NOTHING;
+    }
+
+    public Boolean checkMenuCategory(String category) {
+        return this.getCategory().equals(category);
     }
 }

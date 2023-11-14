@@ -5,6 +5,8 @@ import christmas.utils.ErrorMessage;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
@@ -23,6 +25,7 @@ public class Order {
             orders.put(Menu.getMenuByName(extractName(orderFromUser)), amount);
         }
         checkMaximumNumberOfOrders(getTotalNumberOfMenu(orders));
+        checkOnlyDrinks(orders.keySet());
         this.orders = orders;
     }
 
@@ -94,5 +97,12 @@ public class Order {
 
     private int getTotalNumberOfMenu(Map<Menu, Integer> orders) {
         return orders.values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    private void checkOnlyDrinks(Set<Menu> menuFromOrders) {
+        if (menuFromOrders.stream().allMatch(menu -> menu.checkMenuCategory("DRINKS"))) {
+            ErrorMessage.drinksOnlyException();
+            throw new IllegalArgumentException();
+        }
     }
 }
