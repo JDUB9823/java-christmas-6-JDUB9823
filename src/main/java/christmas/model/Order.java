@@ -112,7 +112,7 @@ public class Order {
     public int getTotalPrice() {
         int totalPrice = 0;
 
-        for (Map.Entry<Menu,Integer>element : this.orders.entrySet()) {
+        for (Map.Entry<Menu, Integer> element : this.orders.entrySet()) {
             totalPrice += element.getKey().getPrice() * element.getValue();
         }
 

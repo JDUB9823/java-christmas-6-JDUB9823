@@ -112,7 +112,7 @@ public class EventPlannerController {
                 order.getOrderKeysByCategory(discountCategoryName));
     }
 
-    private int getStarDiscount(VisitDate visitDate,int totalPrice) {
+    private int getStarDiscount(VisitDate visitDate, int totalPrice) {
         int discountAmount = 0;
 
         if (visitDate.checkStarDay() && checkDiscountCondition(totalPrice)) {
