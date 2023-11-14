@@ -15,6 +15,7 @@ public class PromotionController {
 
     public void init() {
         OutputView.printGreeting();
+        OutputView.printPrecautions();
 
         VisitDate visitDate = inputController.getVisitDateFromUser();
         Order order = inputController.getOrderFromUser();
