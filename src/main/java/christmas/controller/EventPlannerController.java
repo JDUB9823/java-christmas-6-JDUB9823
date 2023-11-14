@@ -59,7 +59,9 @@ public class EventPlannerController {
         OutputView.printGift(getGift(order.getTotalPrice()));
 
         OutputView.printBenefitsHead();
-        int disCountAMount = checkBenefits(order, visitDate);
+        int totalDisCountAMount = checkBenefits(order, visitDate);
+
+        OutputView.printTotalDiscountAmount(totalDisCountAMount);
     }
 
     private String getGift(int totalPrice) {
