@@ -42,6 +42,31 @@ public class OutputView {
         System.out.println(gift);
     }
 
+    public static void printBenefitsHead() {
+        System.out.println();
+        System.out.println("<혜택 내역>");
+    }
+
+    public static void printChristmasDDayDiscount(int discountAmount) {
+        System.out.println("크리스마스 디데이 할인: -" + new DecimalFormat("###,###").format(discountAmount) + "원");
+    }
+
+    public static void printweekdayDiscount(int discountAmount) {
+        System.out.println("평일 할인: -" + new DecimalFormat("###,###").format(discountAmount) + "원");
+    }
+
+    public static void printweekendDiscount(int discountAmount) {
+        System.out.println("주말 할인: -" + new DecimalFormat("###,###").format(discountAmount) + "원");
+    }
+
+    public static void printStarDiscount() {
+        System.out.println("특별 할인: -" + new DecimalFormat("###,###").format(1000) + "원");
+    }
+
+    public static void printgiftDiscount(int discountAmount) {
+        System.out.println("증정 이벤트: -" + new DecimalFormat("###,###").format(discountAmount) + "원");
+    }
+
     public static void printNone() {
         System.out.println("없음");
     }

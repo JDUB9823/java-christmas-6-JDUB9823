@@ -7,6 +7,7 @@ import static java.lang.Integer.parseInt;
 public class VisitDate {
     private static final int BEGIN_DATE = 1;
     private static final int END_DATE = 31;
+    private static final int CHRISTMAS_DATE = 25;
     private final int date;
 
     public VisitDate(String visitDateFromUser) {
@@ -33,6 +34,10 @@ public class VisitDate {
             ErrorMessage.dateException();
             throw new IllegalArgumentException();
         }
+    }
+
+    public boolean checkChristmasDDay() {
+        return this.getDate() >= BEGIN_DATE && this.getDate() <= CHRISTMAS_DATE;
     }
 
     public int getDate() {
