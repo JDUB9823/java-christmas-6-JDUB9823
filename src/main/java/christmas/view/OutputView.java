@@ -74,7 +74,7 @@ public class OutputView {
     public static void printTotalDiscountAmount(int totalDiscountAmount) {
         System.out.println();
         System.out.println("<총혜택 금액>");
-        if(totalDiscountAmount > 0) {
+        if (totalDiscountAmount > 0) {
             System.out.println("-" + new DecimalFormat("###,###").format(totalDiscountAmount) + "원");
             return;
         }
@@ -90,6 +90,10 @@ public class OutputView {
     public static void printBadgeHead() {
         System.out.println();
         System.out.println("<12월 이벤트 배지>");
+    }
+
+    public static void printBadge(String badge) {
+        System.out.println(badge);
     }
 
     public static void printErrorMessage(String errorMessage) {

@@ -11,6 +11,10 @@ public class EventPlannerController {
     private static final int WEEK_DISCOUNT_EVENT_PRICE = 2023;
     private static final int MINIMUM_ORDER_AMOUNT_FOR_DISCOUNT = 10000;
     private static final int STAR_DAY_DISCOUNT_AMOUNT = 1000;
+    private static final int STAR_BADGE_CONDITION = 5000;
+    private static final int TREE_BADGE_CONDITION = 10000;
+    private static final int SANTA_BADGE_CONDITION = 20000;
+
     private final InputController inputController;
 
     public EventPlannerController() {
@@ -64,6 +68,9 @@ public class EventPlannerController {
         OutputView.printTotalDiscountAmount(totalDisCountAMount);
 
         OutputView.printExpectedBill(order.getTotalPrice() - totalDisCountAMount);
+
+        OutputView.printBadgeHead();
+        OutputView.printBadge(getBadge(totalDisCountAMount));
     }
 
     private String getGift(int totalPrice) {
@@ -147,6 +154,30 @@ public class EventPlannerController {
         }
 
         return discountAmount;
+    }
+
+    private String getBadge(int totalDiscountAmount) {
+        if (totalDiscountAmount > STAR_BADGE_CONDITION) {
+            return getBadgeOver5k(totalDiscountAmount);
+        }
+
+        return "없음";
+    }
+
+    private String getBadgeOver5k(int totalDiscountAmount) {
+        if (totalDiscountAmount > TREE_BADGE_CONDITION) {
+            return getBadgeOver10k(totalDiscountAmount);
+        }
+
+        return "별";
+    }
+
+    private String getBadgeOver10k(int totalDiscountAmount) {
+        if (totalDiscountAmount > SANTA_BADGE_CONDITION) {
+            return "산타";
+        }
+
+        return "트리";
     }
 
     private void createOrderDetails(Order order) {
