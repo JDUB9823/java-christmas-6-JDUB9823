@@ -62,6 +62,8 @@ public class EventPlannerController {
         int totalDisCountAMount = checkBenefits(order, visitDate);
 
         OutputView.printTotalDiscountAmount(totalDisCountAMount);
+
+        OutputView.printExpectedBill(order.getTotalPrice() - totalDisCountAMount);
     }
 
     private String getGift(int totalPrice) {
