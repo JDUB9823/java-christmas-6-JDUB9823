@@ -71,6 +71,27 @@ public class OutputView {
         System.out.println("없음");
     }
 
+    public static void printTotalDiscountAmount(int totalDiscountAmount) {
+        System.out.println();
+        System.out.println("<총혜택 금액>");
+        if(totalDiscountAmount > 0) {
+            System.out.println("-" + new DecimalFormat("###,###").format(totalDiscountAmount) + "원");
+            return;
+        }
+        System.out.println(totalDiscountAmount + "원");
+    }
+
+    public static void printExpectedBill(int totalAmountAfterDiscount) {
+        System.out.println();
+        System.out.println("<할인 후 예상 결제 금액>");
+        System.out.println(new DecimalFormat("###,###").format(totalAmountAfterDiscount) + "원");
+    }
+
+    public static void printBadgeHead() {
+        System.out.println();
+        System.out.println("<12월 이벤트 배지>");
+    }
+
     public static void printErrorMessage(String errorMessage) {
         System.out.println("[ERROR] " + errorMessage);
     }
