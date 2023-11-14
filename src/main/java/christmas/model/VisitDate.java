@@ -8,6 +8,7 @@ public class VisitDate {
     private static final int BEGIN_DATE = 1;
     private static final int END_DATE = 31;
     private static final int CHRISTMAS_DATE = 25;
+    private static final int DAYS_IN_A_WEEK = 7;
     private final int date;
 
     public VisitDate(String visitDateFromUser) {
@@ -41,11 +42,11 @@ public class VisitDate {
     }
 
     public boolean checkWeekday() { //12월의 주말은 1,2 8,9 ...이므로 7의 나머지가 1,2가 아니면 평일
-        return this.getDate() % 7 != 1 && this.getDate() % 7 != 2;
+        return this.getDate() % DAYS_IN_A_WEEK != 1 && this.getDate() % DAYS_IN_A_WEEK != 2;
     }
 
-    public boolean checkStarDay() { //12월의 특별일은 3,10,17... 이므로 7의 나머지가 3이면 달력에 별
-        return this.getDate() % 7 == 3;
+    public boolean checkStarDay() { //12월의 특별일은 3,10,17... 이므로 7의 나머지가 3이면 달력에 별 + 25일
+        return this.getDate() % DAYS_IN_A_WEEK == 3 || this.getDate() == CHRISTMAS_DATE;
     }
 
     public int getDate() {
