@@ -44,6 +44,10 @@ public class VisitDate {
         return this.getDate() % 7 != 1 && this.getDate() % 7 != 2;
     }
 
+    public boolean checkStarDay() { //12월의 특별일은 3,10,17... 이므로 7의 나머지가 3이면 달력에 별
+        return this.getDate() % 7 == 3;
+    }
+
     public int getDate() {
         return date;
     }
