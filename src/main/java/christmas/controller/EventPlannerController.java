@@ -1,13 +1,8 @@
 package christmas.controller;
 
-import christmas.model.Menu;
 import christmas.model.Order;
 import christmas.model.VisitDate;
 import christmas.view.OutputView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class EventPlannerController {
     private static final int GIFT_EVENT_CONDITION = 120000;
@@ -15,6 +10,7 @@ public class EventPlannerController {
     private static final int CHRISTMAS_D_DAY_EVENT_BASE_DISCOUNT = 1000;
     private static final int WEEK_DISCOUNT_EVENT_PRICE = 2023;
     private static final int MINIMUM_ORDER_AMOUNT_FOR_DISCOUNT = 10000;
+    private static final int STAR_DAY_DISCOUNT_AMOUNT = 1000;
     private final InputController inputController;
 
     public EventPlannerController() {
@@ -63,7 +59,7 @@ public class EventPlannerController {
         OutputView.printGift(getGift(order.getTotalPrice()));
 
         OutputView.printBenefitsHead();
-        boolean getDiscount = checkBenefits(order, visitDate);
+        int disCountAMount = checkBenefits(order, visitDate);
     }
 
     private String getGift(int totalPrice) {
@@ -78,64 +74,76 @@ public class EventPlannerController {
         return totalPrice >= GIFT_EVENT_CONDITION;
     }
 
-    private boolean checkBenefits(Order order, VisitDate visitDate) {
-        if (visitDate.checkChristmasDDay() || visitDate.checkStarDay() ||
-                (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT")) ||
-                (!visitDate.checkWeekday() && order.checkCategoryExists("MAIN_MENU")) ||
-                checkGift(order.getTotalPrice())) {
-            checkChristmasDDayDiscount(visitDate);
-            checkWeekEventDiscount(visitDate, order);
-            checkWeekEventDiscount(visitDate, order);
-            checkStarDiscount(visitDate);
-            checkGiftBenefit(order.getTotalPrice());
-            return true;
-        }
-        OutputView.printNone();
-        return false;
-    }
+    private int checkBenefits(Order order, VisitDate visitDate) {
+        int discountAmount = 0;
+        discountAmount += getChristmasDDayDiscount(visitDate);
+        discountAmount += getWeekEventDiscount(visitDate, order);
+        discountAmount += getStarDiscount(visitDate);
+        discountAmount += getGiftBenefit(order.getTotalPrice());
 
-    private void checkChristmasDDayDiscount(VisitDate visitDate) {
-        if (visitDate.checkChristmasDDay()) {
-            OutputView.printChristmasDDayDiscount(getChristmasDDayDiscount(visitDate));
+        if (discountAmount == 0) {
+            OutputView.printNone();
         }
+
+        return discountAmount;
     }
 
     private int getChristmasDDayDiscount(VisitDate visitDate) {
+        int discountAmount = 0;
+
+        if (visitDate.checkChristmasDDay()) {
+            discountAmount = calculateChristmasDDayDiscount(visitDate);
+            OutputView.printChristmasDDayDiscount(discountAmount);
+        }
+
+        return discountAmount;
+    }
+
+    private int calculateChristmasDDayDiscount(VisitDate visitDate) {
         return CHRISTMAS_D_DAY_EVENT_BASE_DISCOUNT + (visitDate.getDate() - 1) * 100;
     }
 
-    private void checkWeekEventDiscount(VisitDate visitDate, Order order) {
+    private int getWeekEventDiscount(VisitDate visitDate, Order order) {
+        int discountAmount = 0;
+
         if (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT")) {
-            OutputView.printweekdayDiscount(getWeekEventDiscount(order, "DESSERT"));
+            discountAmount = calculateWeekEventDiscount(order, "DESSERT");
+            OutputView.printweekdayDiscount(discountAmount);
         }
         if (!visitDate.checkWeekday() && order.checkCategoryExists("MAIN_MENU")) {
-            OutputView.printweekendDiscount(getWeekEventDiscount(order, "MAIN_MENU"));
+            discountAmount = calculateWeekEventDiscount(order, "MAIN_MENU");
+            OutputView.printweekendDiscount(discountAmount);
         }
+
+        return discountAmount;
     }
 
-    private int getWeekEventDiscount(Order order, String discountCategoryName) {
+    private int calculateWeekEventDiscount(Order order, String discountCategoryName) {
         return WEEK_DISCOUNT_EVENT_PRICE * order.getCategoryMenuAmountByKeys(
                 order.getOrderKeysByCategory(discountCategoryName));
     }
 
-    private void checkStarDiscount(VisitDate visitDate) {
+    private int getStarDiscount(VisitDate visitDate) {
+        int discountAmount = 0;
+
         if (visitDate.checkStarDay()) {
-            OutputView.printStarDiscount();
+            discountAmount = STAR_DAY_DISCOUNT_AMOUNT;
+            OutputView.printStarDiscount(STAR_DAY_DISCOUNT_AMOUNT);
         }
+
+        return discountAmount;
     }
 
-    private void checkGiftBenefit(int totalPrice) {
-        if (totalPrice >= GIFT_EVENT_CONDITION)
+    private int getGiftBenefit(int totalPrice) {
+        int discountAmount = 0;
+
+        if (totalPrice >= GIFT_EVENT_CONDITION) {
+            discountAmount = GIFT_EVENT_PRICE;
             OutputView.printgiftDiscount(GIFT_EVENT_PRICE);
-    }
-
-    private int calculateGiftPrice(Order order) {
-        if (order.getTotalPrice() >= GIFT_EVENT_CONDITION) {
-            return GIFT_EVENT_PRICE;
         }
-        return 0;
-    }
 
+        return discountAmount;
+    }
 
     private void createOrderDetails(Order order) {
         OutputView.printOrderDetailsHead();

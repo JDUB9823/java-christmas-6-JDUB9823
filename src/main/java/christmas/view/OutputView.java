@@ -59,8 +59,8 @@ public class OutputView {
         System.out.println("주말 할인: -" + new DecimalFormat("###,###").format(discountAmount) + "원");
     }
 
-    public static void printStarDiscount() {
-        System.out.println("특별 할인: -" + new DecimalFormat("###,###").format(1000) + "원");
+    public static void printStarDiscount(int discountAmount) {
+        System.out.println("특별 할인: -" + new DecimalFormat("###,###").format(discountAmount) + "원");
     }
 
     public static void printgiftDiscount(int discountAmount) {
