@@ -108,4 +108,14 @@ public class Order {
     public Map<Menu, Integer> getOrders() {
         return orders;
     }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+
+        for (Map.Entry<Menu,Integer>element : this.orders.entrySet()) {
+            totalPrice += element.getKey().getPrice() * element.getValue();
+        }
+
+        return totalPrice;
+    }
 }

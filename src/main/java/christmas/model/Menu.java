@@ -33,6 +33,10 @@ public enum Menu {      //메뉴판
         return name;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
     public String getCategory() {
         return category;
     }

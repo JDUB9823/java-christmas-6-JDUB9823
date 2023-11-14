@@ -15,10 +15,14 @@ public class PromotionController {
 
     public void init() {
         OutputView.printGreeting();
+
         VisitDate visitDate = inputController.getVisitDateFromUser();
         Order order = inputController.getOrderFromUser();
+
         OutputView.printEventPreviewHead();
         createOrderDetails(order);
+
+        OutputView.printTotalPriceBeforeDiscount(order.getTotalPrice());
     }
 
     public void createOrderDetails(Order order) {
