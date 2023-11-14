@@ -25,7 +25,7 @@ public class VisitDate {
         try {
             return parseInt(visitDateFromUser);
         } catch (NumberFormatException e) {
-            ErrorMessage.numberException();
+            ErrorMessage.dateException();
             throw new IllegalArgumentException();
         }
     }
