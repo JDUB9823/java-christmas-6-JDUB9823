@@ -1,13 +1,18 @@
 package christmas.controller;
 
+import christmas.model.Menu;
 import christmas.model.Order;
 import christmas.model.VisitDate;
 import christmas.view.OutputView;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventPlannerController {
     private static final int GIFT_EVENT_CONDITION = 120000;
     private static final int GIFT_EVENT_PRICE = 25000;
     private static final int CHRISTMAS_D_DAY_EVENT_BASE_DISCOUNT = 1000;
+    private static final int WEEK_DISCOUNT_EVENT_PRICE = 2023;
     private final InputController inputController;
 
     public EventPlannerController() {
@@ -32,7 +37,6 @@ public class EventPlannerController {
     private void getEventPlannerResult(Order order, VisitDate visitDate) {
         OutputView.printGift(getGift(order));
         getBenefits(order, visitDate);
-        getChristmasDDayDiscount(visitDate);
     }
 
     private String getGift(Order order) {
@@ -51,10 +55,16 @@ public class EventPlannerController {
         OutputView.printBenefitsHead();
         if (visitDate.checkChristmasDDay())
             OutputView.printChristmasDDayDiscount(getChristmasDDayDiscount(visitDate));
+        if (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT"))
+            OutputView.printweekdayDiscount(getWeekEventDiscount(order, "DESSERT"));
     }
 
     private int getChristmasDDayDiscount(VisitDate visitDate) {
         return CHRISTMAS_D_DAY_EVENT_BASE_DISCOUNT + (visitDate.getDate() - 1) * 100;
+    }
+
+    private int getWeekEventDiscount(Order order, String discountCategoryName) {
+        return WEEK_DISCOUNT_EVENT_PRICE * order.getCategoryMenuAmountByKeys(order.getOrderKeysByCategory(discountCategoryName));
     }
 
     private int calculateGiftPrice(Order order) {

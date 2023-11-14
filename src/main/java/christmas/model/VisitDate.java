@@ -40,6 +40,10 @@ public class VisitDate {
         return this.getDate() >= BEGIN_DATE && this.getDate() <= CHRISTMAS_DATE;
     }
 
+    public boolean checkWeekday() { //12월의 주말은 1,2 8,9 ...이므로 7의 나머지가 1,2가 아니면 평일
+        return this.getDate() % 7 != 1 && this.getDate() % 7 != 2;
+    }
+
     public int getDate() {
         return date;
     }

@@ -118,4 +118,22 @@ public class Order {
 
         return totalPrice;
     }
+
+    public boolean checkCategoryExists(String categoryName) {
+        return this.getOrders().keySet().stream().anyMatch(menu -> menu.getCategory().equals(categoryName));
+    }
+
+    public List<Menu> getOrderKeysByCategory(String categoryName) {
+        return this.orders.keySet().stream().filter(menu -> menu.checkMenuCategory(categoryName)).toList();
+    }
+
+    public int getCategoryMenuAmountByKeys(List<Menu> keys) {
+        int menuAmount = 0;
+
+        for (Menu key : keys) {
+            menuAmount += this.orders.get(key);
+        }
+
+        return menuAmount;
+    }
 }
