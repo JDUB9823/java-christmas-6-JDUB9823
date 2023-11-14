@@ -33,33 +33,10 @@ public class EventPlannerController {
 
         OutputView.printTotalPriceBeforeDiscount(order.getTotalPrice());
 
-        checkDiscountCondition(order, visitDate);
+        getEventPlannerResult(order, visitDate);
     }
 
-    private void checkDiscountCondition(Order order, VisitDate visitDate) {
-        if (order.getTotalPrice() < MINIMUM_ORDER_AMOUNT_FOR_DISCOUNT) {
-            printResultWithNoDiscount(order.getTotalPrice());
-            return;
-        }
-
-        printResultWithDiscount(order, visitDate);
-    }
-
-    private void printResultWithNoDiscount(int orderAmount) {
-        OutputView.printGift(getGift(orderAmount));
-
-        OutputView.printBenefitsHead();
-        OutputView.printNone();
-
-        OutputView.printTotalDiscountAmount(0);
-
-        OutputView.printExpectedBill(orderAmount);
-
-        OutputView.printBadgeHead();
-        OutputView.printNone();
-    }
-
-    private void printResultWithDiscount(Order order, VisitDate visitDate) {
+    private void getEventPlannerResult(Order order, VisitDate visitDate) {
         OutputView.printGift(getGift(order.getTotalPrice()));
 
         OutputView.printBenefitsHead();
@@ -87,9 +64,9 @@ public class EventPlannerController {
 
     private int checkBenefits(Order order, VisitDate visitDate) {
         int discountAmount = 0;
-        discountAmount += getChristmasDDayDiscount(visitDate);
+        discountAmount += getChristmasDDayDiscount(visitDate, order.getTotalPrice());
         discountAmount += getWeekEventDiscount(visitDate, order);
-        discountAmount += getStarDiscount(visitDate);
+        discountAmount += getStarDiscount(visitDate, order.getTotalPrice());
         discountAmount += getGiftBenefit(order.getTotalPrice());
 
         if (discountAmount == 0) {
@@ -99,10 +76,10 @@ public class EventPlannerController {
         return discountAmount;
     }
 
-    private int getChristmasDDayDiscount(VisitDate visitDate) {
+    private int getChristmasDDayDiscount(VisitDate visitDate, int totalPrice) {
         int discountAmount = 0;
 
-        if (visitDate.checkChristmasDDay()) {
+        if (visitDate.checkChristmasDDay() && checkDiscountCondition(totalPrice)) {
             discountAmount = calculateChristmasDDayDiscount(visitDate);
             OutputView.printChristmasDDayDiscount(discountAmount);
         }
@@ -117,11 +94,13 @@ public class EventPlannerController {
     private int getWeekEventDiscount(VisitDate visitDate, Order order) {
         int discountAmount = 0;
 
-        if (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT")) {
+        if (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT")
+                && checkDiscountCondition(order.getTotalPrice())) {
             discountAmount = calculateWeekEventDiscount(order, "DESSERT");
             OutputView.printweekdayDiscount(discountAmount);
         }
-        if (!visitDate.checkWeekday() && order.checkCategoryExists("MAIN_MENU")) {
+        if (!visitDate.checkWeekday() && order.checkCategoryExists("MAIN_MENU")
+                && checkDiscountCondition(order.getTotalPrice())) {
             discountAmount = calculateWeekEventDiscount(order, "MAIN_MENU");
             OutputView.printweekendDiscount(discountAmount);
         }
@@ -134,10 +113,10 @@ public class EventPlannerController {
                 order.getOrderKeysByCategory(discountCategoryName));
     }
 
-    private int getStarDiscount(VisitDate visitDate) {
+    private int getStarDiscount(VisitDate visitDate,int totalPrice) {
         int discountAmount = 0;
 
-        if (visitDate.checkStarDay()) {
+        if (visitDate.checkStarDay() && checkDiscountCondition(totalPrice)) {
             discountAmount = STAR_DAY_DISCOUNT_AMOUNT;
             OutputView.printStarDiscount(STAR_DAY_DISCOUNT_AMOUNT);
         }
@@ -183,5 +162,9 @@ public class EventPlannerController {
     private void createOrderDetails(Order order) {
         OutputView.printOrderDetailsHead();
         order.getOrders().forEach((menu, amount) -> OutputView.printOrderDetails(menu.getName(), amount));
+    }
+
+    private boolean checkDiscountCondition(int totalPrice) {
+        return totalPrice >= MINIMUM_ORDER_AMOUNT_FOR_DISCOUNT;
     }
 }
