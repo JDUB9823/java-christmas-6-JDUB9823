@@ -57,6 +57,8 @@ public class EventPlannerController {
             OutputView.printChristmasDDayDiscount(getChristmasDDayDiscount(visitDate));
         if (visitDate.checkWeekday() && order.checkCategoryExists("DESSERT"))
             OutputView.printweekdayDiscount(getWeekEventDiscount(order, "DESSERT"));
+        if (!visitDate.checkWeekday() && order.checkCategoryExists("MAIN_MENU"))
+            OutputView.printweekendDiscount(getWeekEventDiscount(order, "MAIN_MENU"));
     }
 
     private int getChristmasDDayDiscount(VisitDate visitDate) {
