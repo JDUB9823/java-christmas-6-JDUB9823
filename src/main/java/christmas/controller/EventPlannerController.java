@@ -1,16 +1,13 @@
 package christmas.controller;
 
-import christmas.model.Benefits;
 import christmas.model.Order;
 import christmas.model.VisitDate;
 import christmas.view.OutputView;
 
-import java.util.Iterator;
-
-public class PromotionController {
+public class EventPlannerController {
     private final InputController inputController;
 
-    public PromotionController() {
+    public EventPlannerController() {
         this.inputController = new InputController();
     }
 
