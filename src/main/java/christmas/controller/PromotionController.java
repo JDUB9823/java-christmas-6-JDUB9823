@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.model.Benefits;
 import christmas.model.Order;
 import christmas.model.VisitDate;
 import christmas.view.OutputView;
@@ -13,7 +14,7 @@ public class PromotionController {
         this.inputController = new InputController();
     }
 
-    public void init() {
+    public void initEventPlanner() {
         OutputView.printGreeting();
         OutputView.printPrecautions();
 
