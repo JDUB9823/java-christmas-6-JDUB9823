@@ -165,7 +165,7 @@ class OrderTest {
     static Stream<Arguments> expectedOrder() {
         return Stream.of(
                 Arguments.of(List.of("티본스테이크-1"), 55000),
-                Arguments.of(List.of("타파스-1", "샴페인-1", "아이스크림-3"), +5500 + 25000 + 5000 * 3)
+                Arguments.of(List.of("타파스-1", "샴페인-1", "아이스크림-3"), 5500 + 25000 + 5000 * 3)
         );
     }
 }
