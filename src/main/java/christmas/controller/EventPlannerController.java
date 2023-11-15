@@ -3,6 +3,7 @@ package christmas.controller;
 import christmas.model.Order;
 import christmas.model.VisitDate;
 import christmas.view.OutputView;
+import com.sun.source.tree.Tree;
 
 public class EventPlannerController {
     private static final int GIFT_EVENT_CONDITION = 120000;
@@ -37,6 +38,7 @@ public class EventPlannerController {
     }
 
     private void getEventPlannerResult(Order order, VisitDate visitDate) {
+        System.out.println(visitDate.getDate());
         OutputView.printGift(getGift(order.getTotalPrice()));
 
         OutputView.printBenefitsHead();
@@ -135,27 +137,19 @@ public class EventPlannerController {
     }
 
     private String getBadge(int totalDiscountAmount) {
-        if (totalDiscountAmount > STAR_BADGE_CONDITION) {
-            return getBadgeOver5k(totalDiscountAmount);
-        }
-
-        return "없음";
-    }
-
-    private String getBadgeOver5k(int totalDiscountAmount) {
-        if (totalDiscountAmount > TREE_BADGE_CONDITION) {
-            return getBadgeOver10k(totalDiscountAmount);
-        }
-
-        return "별";
-    }
-
-    private String getBadgeOver10k(int totalDiscountAmount) {
         if (totalDiscountAmount > SANTA_BADGE_CONDITION) {
             return "산타";
         }
 
-        return "트리";
+        if (totalDiscountAmount > TREE_BADGE_CONDITION) {
+            return "트리";
+        }
+
+        if (totalDiscountAmount > STAR_BADGE_CONDITION) {
+            return "별";
+        }
+
+        return "없음";
     }
 
     private void createOrderDetails(Order order) {
